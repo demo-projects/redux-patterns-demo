@@ -1,3 +1,13 @@
+import {UPDATE_BOOKS} from "../actions/books";
+
 export function booksReducer(books = [], action) {
-  return books;
+
+  switch(action.type) {
+
+    case UPDATE_BOOKS:
+      return action.payload;
+
+    default:
+      return books;
+  }
 }

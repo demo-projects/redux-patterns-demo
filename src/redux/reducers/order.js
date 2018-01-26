@@ -1,9 +1,19 @@
+import {UPDATE_ORDER} from "../actions/order";
+
 const initOrder = {
+  date  : null,
   bookId: null,
-  email: ''
+  email : ''
 };
 
 export function orderReducer(order = initOrder, action) {
-  console.log('books order');
-  return order;
+
+  switch (action.type) {
+
+    case UPDATE_ORDER:
+      return {...order, ...action.payload};
+
+    default:
+      return order;
+  }
 }

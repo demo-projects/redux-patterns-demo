@@ -3,31 +3,20 @@ import {Books} from "./Books";
 import {OrderBook} from "./OrderBook";
 import {Spinner} from './Spinner';
 import {connect} from "react-redux";
-
-const API = 'https://www.googleapis.com/books/v1/volumes?q=react';
+import {getBooks, selectBook} from "../redux/actions/books";
+import {submitOrder} from "../redux/actions/order";
 
 class App extends Component {
 
-  state = {books: []};
-
   componentWillMount() {
-    fetch(API).then(result => result.json())
-      .then(result => this.setState({books: result.items}))
+    this.props.getBooks()
   }
 
-  selectBook = (bookId) => {
-    console.log(bookId);
-  };
-
-  handleOrder = (email) => {
-    console.log(email);
-  };
-
   renderContent = () => {
-    const {orderInProcess} = this.props;
+    const {orderInProcess, books, selectBook, submitOrder} = this.props;
 
     return orderInProcess ?
-      <OrderBook onPlaceOrder={this.handleOrder}/> : <Books books={this.state.books} onSelect={this.selectBook}/>
+      <OrderBook onSubmitOrder={submitOrder}/> : <Books books={books} onBookSelect={selectBook}/>
   };
 
   render() {
@@ -55,4 +44,6 @@ const mapStateToProps = state => ({
   order         : state.order
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, {
+  getBooks, selectBook, submitOrder
+})(App);
